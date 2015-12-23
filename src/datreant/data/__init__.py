@@ -8,7 +8,10 @@ datreant.data --- basic data storage backends for datreant.limbs.Data
 =====================================================================
 
 """
-from datreant.data.core import DataFile
-from datreant.data import pydata, npdata, pddata
+from .core import DataFile
+from . import pydata, npdata, pddata
+
+# attach limbs to datreant objects
+from . import attach
 
 __all__ = ['pydata', 'npdata', 'pddata']

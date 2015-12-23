@@ -7,15 +7,17 @@ For a basic installation just type the command::
 
 """
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(name='datreant.data',
       version='0.6.0-dev',
       author='David Dotson',
       author_email='dotsdl@gmail.com',
-      packages=[
-          'datreant.data',
-          'datreant.data.tests'],
+      namespace_packages=['datreant'],
+      packages=['datreant',
+                'datreant.data',
+                'datreant.data.tests'],
+      package_dir={'': 'src'},
       scripts=[],
       license='BSD',
       long_description=open('README.rst').read(),
@@ -23,7 +25,7 @@ setup(name='datreant.data',
       'http://github.com/datreant/datreant/tarball/develop#egg=datreant-0.6.0-dev',
       ],
       install_requires=[
-          'datreant>=0.6.0-dev',
+          'datreant',
           'numpy',
           'pandas',
           'tables',

@@ -1,3 +1,32 @@
+import random
+import multiprocessing as mp
+import pytest
+import numpy as np
+import pandas as pd
+
+import datreant as dtr
+
+from datreant.backends.statefiles import TreantFile
+
+
+def append(treantfilepath, df):
+    treant = dtr.Treant(treantfilepath)
+    treant.data.append('testdata', df)
+
+
+class TestTreantFile:
+
+    @pytest.fixture
+    def treant(self, tmpdir):
+        with tmpdir.as_cwd():
+            t = dtr.treants.Treant('sprout')
+        return t
+
+    @pytest.fixture
+    def treantfile(self, tmpdir):
+        with tmpdir.as_cwd():
+            tf = TreantFile('testtreantfile.json')
+        return tf
 
     @pytest.fixture
     def dataframe(self):
@@ -14,4 +43,3 @@
         pool.join()
 
         assert len(treant.data['testdata']) == len(dataframe)*(num+0)
-

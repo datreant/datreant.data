@@ -1,3 +1,27 @@
+import pandas as pd
+import numpy as np
+import pytest
+
+import datreant as dtr
+import datreant.data
+from . import test_data
+
+
+class CollectionTests():
+    """Tests for common elements of Group.members and Bundle"""
+
+    @pytest.fixture
+    def testtreant(self, tmpdir, request):
+        with tmpdir.as_cwd():
+            t = dtr.Treant('dummytreant')
+        return t
+
+    @pytest.fixture
+    def testgroup(self, tmpdir, request):
+        with tmpdir.as_cwd():
+            g = dtr.Group('dummygroup')
+            g.members.add(dtr.Treant('bark'), dtr.Treant('leaf'))
+        return g
 
     class TestMemberData:
         """Test member data functionality"""
@@ -144,3 +168,10 @@
         class Test_Dict_Mix(test_data.Dict_Mix, DataMixin):
             pass
 
+
+class TestBundle(CollectionTests):
+    """Test Bundle features"""
+
+    @pytest.fixture
+    def collection(self):
+        return dtr.Bundle()

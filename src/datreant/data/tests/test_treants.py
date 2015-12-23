@@ -1,4 +1,26 @@
 
+import datreant as dtr
+import datreant.data
+import pandas as pd
+import numpy as np
+import pytest
+import os
+import py
+
+from datreant.data.tests import test_data
+
+
+class TestTreant:
+    treantname = 'testtreant'
+    treanttype = 'Treant'
+    treantclass = dtr.treants.Treant
+
+    @pytest.fixture
+    def treant(self, tmpdir):
+        with tmpdir.as_cwd():
+            c = dtr.treants.Treant(TestTreant.treantname)
+        return c
+
     class TestData:
         """Test data storage and retrieval"""
 

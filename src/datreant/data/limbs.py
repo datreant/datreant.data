@@ -4,15 +4,19 @@ Limbs convenient Treant data storage and retrieval.
 """
 import os
 from functools import wraps
+import pandas as pd
 
-from datreant.limbs import MemberAgg
+from datreant.limbs import Limb, MemberAgg
 from . import npdata, pddata, pydata
+from .core import DataFile
 
 
 class MemberData(MemberAgg):
     """Manipulators for member data.
 
     """
+    _name = 'data'
+
     def __repr__(self):
         return "<Data({})>".format(self.keys(mode='any'))
 
@@ -196,6 +200,7 @@ class Data(Limb):
     """Interface to stored data.
 
     """
+    _name = 'data'
 
     def __repr__(self):
         return "<Data({})>".format(self.keys())
@@ -287,7 +292,7 @@ class Data(Limb):
             filename, filetype = self._get_datafile(handle)
 
             if filename:
-                self._datafile = data.DataFile(
+                self._datafile = DataFile(
                         os.path.join(self._backend.get_location(),
                                      handle),
                         logger=self._logger,
@@ -322,7 +327,7 @@ class Data(Limb):
             dirname = os.path.join(self._backend.get_location(), handle)
 
             self._makedirs(dirname)
-            self._datafile = data.DataFile(dirname, logger=self._logger)
+            self._datafile = DataFile(dirname, logger=self._logger)
 
             try:
                 out = func(self, handle, *args, **kwargs)
