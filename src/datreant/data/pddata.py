@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 
 
-from datreant.backends.core import File
+from datreant.core.backends.core import File
 
 
 pddatafile = 'pdData.h5'

@@ -2,8 +2,8 @@ import pandas as pd
 import numpy as np
 import pytest
 
-import datreant as dtr
-import datreant.data
+import datreant.core as dtr
+import datreant.data.attach
 from . import test_data
 
 

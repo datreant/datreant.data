@@ -1,6 +1,6 @@
 
-import datreant as dtr
-import datreant.data
+import datreant.core as dtr
+import datreant.data.attach
 import pandas as pd
 import numpy as np
 import pytest
@@ -58,7 +58,7 @@ class TestTreant:
 
         class PandasMixin(DataMixin):
             """Mixin class for pandas tests"""
-            datafile = dtr.data.pddata.pddatafile
+            datafile = datreant.data.pddata.pddatafile
 
             def test_retrieve_data(self, treant, datastruct):
                 treant.data.add(self.handle, datastruct)
@@ -94,7 +94,7 @@ class TestTreant:
 
         class NumpyMixin(DataMixin):
             """Test numpy datastructure storage and retrieval"""
-            datafile = dtr.data.npdata.npdatafile
+            datafile = datreant.data.npdata.npdatafile
 
         class Test_NumpyScalar(test_data.NumpyScalar, NumpyMixin):
             pass
@@ -119,7 +119,7 @@ class TestTreant:
 
         class PythonMixin(DataMixin):
             """Test pandas datastructure storage and retrieval"""
-            datafile = dtr.data.pydata.pydatafile
+            datafile = datreant.data.pydata.pydatafile
 
             def test_overwrite_data(self, treant, datastruct):
                 treant.data[self.handle] = datastruct
