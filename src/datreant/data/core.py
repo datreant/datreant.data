@@ -8,9 +8,9 @@ import os
 import numpy as np
 import pandas as pd
 
-from datreant.data import pydata
-from datreant.data import npdata
-from datreant.data import pddata
+from . import pydata
+from . import npdata
+from . import pddata
 
 
 class DataFile(object):

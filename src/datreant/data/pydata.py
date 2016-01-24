@@ -5,7 +5,7 @@ File backends for storing general python objects.
 
 import pickle
 
-from datreant.backends.core import File
+from datreant.core.backends.core import File
 
 
 pydatafile = 'pyData.h5'

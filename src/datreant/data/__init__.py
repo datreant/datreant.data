@@ -12,7 +12,4 @@ from .core import DataFile
 from . import pydata, npdata, pddata
 from . import tests
 
-# attach limbs to datreant objects
-from . import attach
-
 __all__ = ['pydata', 'npdata', 'pddata']

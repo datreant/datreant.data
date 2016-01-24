@@ -4,9 +4,10 @@ import pytest
 import numpy as np
 import pandas as pd
 
-import datreant as dtr
+import datreant.core as dtr
+import datreant.data.attach
 
-from datreant.backends.statefiles import TreantFile
+from datreant.core.backends.statefiles import TreantFile
 
 
 def append(treantfilepath, df):

@@ -6,7 +6,7 @@ import os
 from functools import wraps
 import pandas as pd
 
-from datreant.limbs import Limb, MemberAgg
+from datreant.core.limbs import Limb, MemberAgg
 from . import npdata, pddata, pydata
 from .core import DataFile
 

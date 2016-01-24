@@ -1,7 +1,7 @@
 """Data structures for storage and retrieval.
 
 """
-import datreant as dtr
+import datreant.core as dtr
 import pandas as pd
 import numpy as np
 import pytest
