@@ -11,5 +11,7 @@ datreant.data --- basic data storage backends for datreant.limbs.Data
 from .core import DataFile
 from . import pydata, npdata, pddata
 from . import tests
+from . import limbs
+from . import agglimbs
 
 __all__ = ['pydata', 'npdata', 'pddata']

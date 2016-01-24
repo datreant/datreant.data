@@ -3,8 +3,10 @@ Modifications made to :mod:`datreant` classes on import of module.
 
 """
 
-import datreant.core
+from datreant.core import Treant
+from datreant.core.collections import CollectionBase
 from . import limbs
+from . import agglimbs
 
-datreant.core.Treant._attach_limb(limbs.Data)
-datreant.core.collections.CollectionBase._attach_limb(limbs.MemberData)
+Treant._attach_limb_class(limbs.Data)
+CollectionBase._attach_agglimb_class(agglimbs.MemberData)
