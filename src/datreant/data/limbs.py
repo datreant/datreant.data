@@ -3,6 +3,7 @@ Limbs for convenient Treant data storage and retrieval.
 
 """
 import os
+import six
 from functools import wraps
 
 from datreant.core.limbs import Limb
@@ -172,7 +173,7 @@ class Data(Limb):
             out = list()
             for item in handle:
                 out.append(self.retrieve(item))
-        elif isinstance(handle, basestring):
+        elif isinstance(handle, six.string_types):
             out = self.retrieve(handle)
 
         return out

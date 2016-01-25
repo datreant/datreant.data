@@ -24,6 +24,7 @@ setup(name='datreant.data',
       ],
       install_requires=[
           'datreant.core',
+          'six',
           'numpy',
           'pandas',
           'tables',

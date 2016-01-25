@@ -2,6 +2,7 @@
 AggLimbs for convenient Treant data storage and retrieval.
 
 """
+import six
 import pandas as pd
 
 from datreant.core.agglimbs import AggLimb
@@ -52,7 +53,7 @@ class MemberData(AggLimb):
             out = list()
             for item in handle:
                 out.append(self.retrieve(item, by='uuid'))
-        elif isinstance(handle, basestring):
+        elif isinstance(handle, six.string_types):
             out = self.retrieve(handle, by='uuid')
 
         return out
