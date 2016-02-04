@@ -82,7 +82,7 @@ class Data(Limb):
         datafiletype = None
         for dfiletype in (pddata.pddatafile, npdata.npdatafile,
                           pydata.pydatafile):
-            dfile = os.path.join(self._backend.get_location(),
+            dfile = os.path.join(self._treant.basedir,
                                  handle, dfiletype)
             if os.path.exists(dfile):
                 datafile = dfile
@@ -108,17 +108,14 @@ class Data(Limb):
 
             if filename:
                 self._datafile = DataFile(
-                        os.path.join(self._backend.get_location(),
+                        os.path.join(self._treant.basedir,
                                      handle),
-                        logger=self._logger,
                         datafiletype=filetype)
                 try:
                     out = func(self, handle, *args, **kwargs)
                 finally:
                     del self._datafile
             else:
-                self._logger.warning(
-                    "No data named '{}' present.".format(handle))
                 out = None
 
             return out
@@ -139,10 +136,10 @@ class Data(Limb):
         """
         @wraps(func)
         def inner(self, handle, *args, **kwargs):
-            dirname = os.path.join(self._backend.get_location(), handle)
+            dirname = os.path.join(self._treant.basedir, handle)
 
             self._makedirs(dirname)
-            self._datafile = DataFile(dirname, logger=self._logger)
+            self._datafile = DataFile(dirname)
 
             try:
                 out = func(self, handle, *args, **kwargs)
@@ -258,7 +255,7 @@ class Data(Limb):
             self._delete_data(handle, **kwargs)
         elif datafile:
             os.remove(datafile)
-            top = self._backend.get_location()
+            top = self._treant.basedir
             directory = os.path.dirname(datafile)
             while directory != top:
                 try:
@@ -266,9 +263,6 @@ class Data(Limb):
                     directory = os.path.dirname(directory)
                 except OSError:
                     break
-        else:
-            self._logger.info(
-                "No data named '{}' present. Nothing to remove".format(handle))
 
     @_write_datafile
     def _delete_data(self, handle, **kwargs):
@@ -304,11 +298,10 @@ class Data(Limb):
         try:
             self._datafile.del_data('main', **kwargs)
         except NotImplementedError:
-            self._logger.info("Dataset '{}' empty; removing.".format(handle))
             datafile = self._get_datafile(handle)[0]
 
             os.remove(datafile)
-            top = self._backend.get_location()
+            top = self._treant.basedir
             directory = os.path.dirname(datafile)
             while directory != top:
                 try:
@@ -396,7 +389,7 @@ class Data(Limb):
 
         """
         datasets = list()
-        top = self._backend.get_location()
+        top = self._treant.basedir
         for root, dirs, files in os.walk(top):
             if ((pddata.pddatafile in files) or
                     (npdata.npdatafile in files) or

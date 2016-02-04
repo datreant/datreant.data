@@ -8,7 +8,7 @@ datreant.data --- basic data storage backends for datreant.limbs.Data
 =====================================================================
 
 """
-from datreant.core import Treant, Group, Bundle
+from datreant.core import Treant, Bundle
 
 from .core import DataFile
 from . import pydata, npdata, pddata

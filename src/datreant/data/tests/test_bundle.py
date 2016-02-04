@@ -16,13 +16,6 @@ class CollectionTests():
             t = dtr.Treant('dummytreant')
         return t
 
-    @pytest.fixture
-    def testgroup(self, tmpdir, request):
-        with tmpdir.as_cwd():
-            g = dtr.Group('dummygroup')
-            g.members.add(dtr.Treant('bark'), dtr.Treant('leaf'))
-        return g
-
     class TestMemberData:
         """Test member data functionality"""
 
@@ -31,7 +24,7 @@ class CollectionTests():
             with tmpdir.as_cwd():
                 s1 = dtr.Treant('lark')
                 s2 = dtr.Treant('hark')
-                g3 = dtr.Group('linus')
+                g3 = dtr.Treant('linus')
 
             collection.add(s1, [g3, s2])
             return collection
