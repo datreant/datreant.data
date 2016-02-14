@@ -82,7 +82,7 @@ class Data(Limb):
         datafiletype = None
         for dfiletype in (pddata.pddatafile, npdata.npdatafile,
                           pydata.pydatafile):
-            dfile = os.path.join(self._treant.basedir,
+            dfile = os.path.join(self._treant.abspath,
                                  handle, dfiletype)
             if os.path.exists(dfile):
                 datafile = dfile
@@ -108,7 +108,7 @@ class Data(Limb):
 
             if filename:
                 self._datafile = DataFile(
-                        os.path.join(self._treant.basedir,
+                        os.path.join(self._treant.abspath,
                                      handle),
                         datafiletype=filetype)
                 try:
@@ -136,7 +136,7 @@ class Data(Limb):
         """
         @wraps(func)
         def inner(self, handle, *args, **kwargs):
-            dirname = os.path.join(self._treant.basedir, handle)
+            dirname = os.path.join(self._treant.abspath, handle)
 
             self._makedirs(dirname)
             self._datafile = DataFile(dirname)
@@ -255,7 +255,7 @@ class Data(Limb):
             self._delete_data(handle, **kwargs)
         elif datafile:
             os.remove(datafile)
-            top = self._treant.basedir
+            top = self._treant.abspath
             directory = os.path.dirname(datafile)
             while directory != top:
                 try:
@@ -301,7 +301,7 @@ class Data(Limb):
             datafile = self._get_datafile(handle)[0]
 
             os.remove(datafile)
-            top = self._treant.basedir
+            top = self._treant.abspath
             directory = os.path.dirname(datafile)
             while directory != top:
                 try:
@@ -389,7 +389,7 @@ class Data(Limb):
 
         """
         datasets = list()
-        top = self._treant.basedir
+        top = self._treant.abspath
         for root, dirs, files in os.walk(top):
             if ((pddata.pddatafile in files) or
                     (npdata.npdatafile in files) or

@@ -34,18 +34,18 @@ class TestTreant:
 
             def test_add_data(self, treant, datastruct):
                 treant.data.add(self.handle, datastruct)
-                assert os.path.exists(os.path.join(treant.basedir,
+                assert os.path.exists(os.path.join(treant.abspath,
                                                    self.handle,
                                                    self.datafile))
 
             def test_remove_data(self, treant, datastruct):
                 treant.data.add(self.handle, datastruct)
-                assert os.path.exists(os.path.join(treant.basedir,
+                assert os.path.exists(os.path.join(treant.abspath,
                                                    self.handle,
                                                    self.datafile))
 
                 treant.data.remove('testdata')
-                assert not os.path.exists(os.path.join(treant.basedir,
+                assert not os.path.exists(os.path.join(treant.abspath,
                                                        self.handle,
                                                        self.datafile))
 
