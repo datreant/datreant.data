@@ -23,14 +23,12 @@ class DataFile(object):
 
     """
 
-    def __init__(self, datadir, logger=None, datafiletype=None, **kwargs):
+    def __init__(self, datadir, datafiletype=None, **kwargs):
         """Initialize data interface.
 
         :Arguments:
            *datadir*
               path to data directory
-           *logger*
-              Treant's logger instance
            *datafiletype*
               If known, either pddata.pddatafile or npdata.npdatafile
 
@@ -40,8 +38,6 @@ class DataFile(object):
 
         # if given, can get data
         self.datafiletype = datafiletype
-
-        self.logger = logger
 
     def add_data(self, key, data):
         """Add a pandas data object (Series, DataFrame, Panel), numpy array,
@@ -59,16 +55,13 @@ class DataFile(object):
         """
         if isinstance(data, np.ndarray):
             self.datafile = npdata.npDataFile(
-                os.path.join(self.datadir, npdata.npdatafile),
-                logger=self.logger)
+                os.path.join(self.datadir, npdata.npdatafile))
         elif isinstance(data, (pd.Series, pd.DataFrame, pd.Panel, pd.Panel4D)):
             self.datafile = pddata.pdDataFile(
-                os.path.join(self.datadir, pddata.pddatafile),
-                logger=self.logger)
+                os.path.join(self.datadir, pddata.pddatafile))
         else:
             self.datafile = pydata.pyDataFile(
-                os.path.join(self.datadir, pydata.pydatafile),
-                logger=self.logger)
+                os.path.join(self.datadir, pydata.pydatafile))
 
         self.datafile.add_data(key, data)
 
@@ -93,14 +86,13 @@ class DataFile(object):
         """
         # TODO: add exceptions where appending isn't possible
         if isinstance(data, np.ndarray):
-            self.logger.info('Cannot append numpy arrays.')
+            raise TypeError('Cannot append numpy arrays.')
         elif isinstance(data, (pd.Series, pd.DataFrame, pd.Panel, pd.Panel4D)):
             self.datafile = pddata.pdDataFile(
-                os.path.join(self.datadir, pddata.pddatafile),
-                logger=self.logger)
+                os.path.join(self.datadir, pddata.pddatafile))
             self.datafile.append_data(key, data)
         else:
-            self.logger.info('Cannot append python object.')
+            raise TypeError('Cannot append python object.')
 
             # dereference
             self.datafile = None
@@ -134,25 +126,21 @@ class DataFile(object):
         """
         if self.datafiletype == npdata.npdatafile:
             self.datafile = npdata.npDataFile(
-                os.path.join(self.datadir, npdata.npdatafile),
-                logger=self.logger)
+                os.path.join(self.datadir, npdata.npdatafile))
             out = self.datafile.get_data(key, **kwargs)
             self.datafile = None
         elif self.datafiletype == pddata.pddatafile:
             self.datafile = pddata.pdDataFile(
-                os.path.join(self.datadir, pddata.pddatafile),
-                logger=self.logger)
+                os.path.join(self.datadir, pddata.pddatafile))
             out = self.datafile.get_data(key, **kwargs)
             self.datafile = None
         elif self.datafiletype == pydata.pydatafile:
             self.datafile = pydata.pyDataFile(
-                os.path.join(self.datadir, pydata.pydatafile),
-                logger=self.logger)
+                os.path.join(self.datadir, pydata.pydatafile))
             out = self.datafile.get_data(key)
             self.datafile = None
         else:
-            # TODO: add exception here
-            self.logger.info('Cannot return data without knowing datatype.')
+            raise TypeError('Cannot return data without knowing datatype.')
             out = None
 
         return out
@@ -175,52 +163,18 @@ class DataFile(object):
         """
         if self.datafiletype == npdata.npdatafile:
             self.datafile = npdata.npDataFile(
-                os.path.join(self.datadir, npdata.npdatafile),
-                logger=self.logger)
+                os.path.join(self.datadir, npdata.npdatafile))
             out = self.datafile.del_data(key, **kwargs)
             self.datafile = None
         elif self.datafiletype == pddata.pddatafile:
             self.datafile = pddata.pdDataFile(
-                os.path.join(self.datadir, pddata.pddatafile),
-                logger=self.logger)
+                os.path.join(self.datadir, pddata.pddatafile))
             out = self.datafile.del_data(key, **kwargs)
             self.datafile = None
         elif self.datafiletype == pydata.pydatafile:
             pass
         else:
-            # TODO: add exception here
-            self.logger.info('Cannot return data without knowing datatype.')
-            out = None
-
-    # TODO: remove this; since we only place one datastructure in an HDF5 file,
-    # we don't need it
-    def list_data(self):
-        """List names of all stored datasets.
-
-        Although the true names start with '\' indicating the root of the
-        HDF5 data tree, we wish to abstract this away. We remove the leading
-        '\' from the output. This shouldn't cause any problems since the
-        leading '\' can be neglected when referring to stored objects by name
-        using all of pandas.HDFStore and h5py.File methods anyway.
-
-        """
-        if self.datafiletype == npdata.npdatafile:
-            self.datafile = npdata.npDataFile(
-                os.path.join(self.datadir, npdata.npdatafile),
-                logger=self.logger)
-            out = self.datafile.list_data(key, data, **kwargs)
-            self.datafile = None
-        elif self.datafiletype == pddata.pddatafile:
-            self.datafile = pddata.pdDataFile(
-                os.path.join(self.datadir, pddata.pddatafile),
-                logger=self.logger)
-            out = self.datafile.list_data(key, data, **kwargs)
-            self.datafile = None
-        elif self.datafiletype == pydata.pydatafile:
-            self.logger.info('No substructure to serialized python object')
-            out = None
-        else:
-            self.logger.info('Cannot return data without knowing datatype.')
+            raise TypeError('Cannot return data without knowing datatype.')
             out = None
 
         return out

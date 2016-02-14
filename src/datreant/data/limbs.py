@@ -6,12 +6,12 @@ import os
 import six
 from functools import wraps
 
-from datreant.core.limbs import Limb
+from datreant.core.limbs import TreeLimb
 from . import npdata, pddata, pydata
 from .core import DataFile
 
 
-class Data(Limb):
+class Data(TreeLimb):
     """Interface to stored data.
 
     """
@@ -82,7 +82,7 @@ class Data(Limb):
         datafiletype = None
         for dfiletype in (pddata.pddatafile, npdata.npdatafile,
                           pydata.pydatafile):
-            dfile = os.path.join(self._treant.abspath,
+            dfile = os.path.join(self._tree.abspath,
                                  handle, dfiletype)
             if os.path.exists(dfile):
                 datafile = dfile
@@ -108,7 +108,7 @@ class Data(Limb):
 
             if filename:
                 self._datafile = DataFile(
-                        os.path.join(self._treant.abspath,
+                        os.path.join(self._tree.abspath,
                                      handle),
                         datafiletype=filetype)
                 try:
@@ -136,7 +136,7 @@ class Data(Limb):
         """
         @wraps(func)
         def inner(self, handle, *args, **kwargs):
-            dirname = os.path.join(self._treant.abspath, handle)
+            dirname = os.path.join(self._tree.abspath, handle)
 
             self._makedirs(dirname)
             self._datafile = DataFile(dirname)
@@ -255,7 +255,7 @@ class Data(Limb):
             self._delete_data(handle, **kwargs)
         elif datafile:
             os.remove(datafile)
-            top = self._treant.abspath
+            top = self._tree.abspath
             directory = os.path.dirname(datafile)
             while directory != top:
                 try:
@@ -301,7 +301,7 @@ class Data(Limb):
             datafile = self._get_datafile(handle)[0]
 
             os.remove(datafile)
-            top = self._treant.abspath
+            top = self._tree.abspath
             directory = os.path.dirname(datafile)
             while directory != top:
                 try:
@@ -389,7 +389,7 @@ class Data(Limb):
 
         """
         datasets = list()
-        top = self._treant.abspath
+        top = self._tree.abspath
         for root, dirs, files in os.walk(top):
             if ((pddata.pddatafile in files) or
                     (npdata.npdatafile in files) or

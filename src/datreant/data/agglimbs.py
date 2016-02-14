@@ -169,9 +169,9 @@ class MemberData(AggLimb):
             def get_index(member): return member.name
             names = [member.name for member in self._members]
             if len(set(names)) != len(names):
-                self._members._logger.warning(
-                        "Member names not unique; data structure may not" +
-                        " look as expected. Set *by* to 'uuid' to avoid this.")
+                raise KeyError(
+                        "Member names not unique; data structure may not"
+                        " look as expected. Set `by` to 'uuid' to avoid this.")
         else:
             raise ValueError(
                     "*by* keyword must be either 'name' or 'uuid'")
