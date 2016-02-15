@@ -8,14 +8,14 @@ import pandas as pd
 from datreant.core.agglimbs import AggLimb
 
 
-class MemberData(AggLimb):
-    """Manipulators for member data.
+class AggData(AggLimb):
+    """Manipulators for collection data.
 
     """
     _name = 'data'
 
     def __repr__(self):
-        return "<Data({})>".format(self.keys(mode='any'))
+        return "<AggData({})>".format(self.keys(mode='any'))
 
     def _repr_html_(self):
         data = self.keys(mode='any')
@@ -72,7 +72,7 @@ class MemberData(AggLimb):
                 list of handles to available datasets
 
         """
-        datasets = [set(member.data) for member in self._members]
+        datasets = [set(member.data) for member in self._collection]
         if mode == 'any':
             out = set.union(*datasets)
         elif mode == 'all':
@@ -167,7 +167,7 @@ class MemberData(AggLimb):
             def get_index(member): return member.uuid
         elif by == 'name':
             def get_index(member): return member.name
-            names = [member.name for member in self._members]
+            names = [member.name for member in self._collection]
             if len(set(names)) != len(names):
                 raise KeyError(
                         "Member names not unique; data structure may not"
@@ -179,7 +179,7 @@ class MemberData(AggLimb):
         # first, collect all the data into a dictionary, the
         # lowest-common-denominator aggregation structure
         agg = dict()
-        for member in self._members:
+        for member in self._collection:
                 agg[get_index(member)] = member.data.retrieve(handle, **kwargs)
 
         # if data are all Series or all DataFrames, we build a multi-index

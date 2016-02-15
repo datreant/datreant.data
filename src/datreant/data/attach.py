@@ -8,4 +8,4 @@ from . import limbs
 from . import agglimbs
 
 Tree._attach_limb_class(limbs.Data)
-Bundle._attach_agglimb_class(agglimbs.MemberData)
+Bundle._attach_agglimb_class(agglimbs.AggData)
