@@ -15,10 +15,10 @@ class AggData(AggLimb):
     _name = 'data'
 
     def __repr__(self):
-        return "<AggData({})>".format(self.keys(mode='any'))
+        return "<AggData({})>".format(self.keys(mode='all'))
 
     def _repr_html_(self):
-        data = self.keys(mode='any')
+        data = self.keys(mode='all')
         agg = "Data"
         if not data:
             out = "No Data"
@@ -34,7 +34,7 @@ class AggData(AggLimb):
         """Retrieve aggreggated dataset from all members.
 
         Returns datasets indexed according to member uuids.
-        See :meth:`MemberData.retrieve` for more information.
+        See :meth:`AggData.retrieve` for more information.
 
         Raises :exc:`KeyError` if dataset doesn't exist for any members.
 
@@ -58,7 +58,7 @@ class AggData(AggLimb):
 
         return out
 
-    def keys(self, mode='any'):
+    def keys(self, mode='all'):
         """List available datasets.
 
         :Arguments:
@@ -82,6 +82,12 @@ class AggData(AggLimb):
         out.sort()
 
         return out
+
+    def any(self):
+        return keys('any')
+
+    def all(self):
+        return keys('all')
 
     def retrieve(self, handle, by='uuid', **kwargs):
         """Retrieve aggregated dataset from all members.
@@ -180,7 +186,10 @@ class AggData(AggLimb):
         # lowest-common-denominator aggregation structure
         agg = dict()
         for member in self._collection:
+            try:
                 agg[get_index(member)] = member.data.retrieve(handle, **kwargs)
+            except KeyError:
+                pass
 
         # if data are all Series or all DataFrames, we build a multi-index
         # Series or DataFrame (respectively)

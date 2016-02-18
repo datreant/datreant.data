@@ -88,6 +88,9 @@ class Data(TreeLimb):
                 datafile = dfile
                 datafiletype = dfiletype
 
+        if datafile is None and datafiletype is None:
+            raise KeyError("No data for '{}'".format(handle))
+
         return (datafile, datafiletype)
 
     def _read_datafile(func):

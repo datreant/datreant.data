@@ -23,7 +23,7 @@ class CollectionTests():
             g.members.add(dtr.Treant('bark'), dtr.Treant('leaf'))
         return g
 
-    class TestMemberData:
+    class TestAggData:
         """Test member data functionality"""
 
         @pytest.fixture
