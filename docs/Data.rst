@@ -37,7 +37,7 @@ This is the data we stored, serialized to disk in the efficient `HDF5
 <http://www.hdfgroup.org/HDF5/>`__ data format. Treants will also
 store `pandas <http://pandas.pydata.org/>`__ objects using this format.
 For other data structures, the Treant will pickle them if it can. The
-:class:`datreant.limbs.Data` interface used here is built to make
+:class:`datreant.data.limbs.Data` interface used here is built to make
 storage of ~90% of data structures one works with as easy as possible.
 
 Datasets can be nested however you like. For example, say we had several
@@ -57,7 +57,7 @@ and their locations in the filesystem reflect this structure.
 
 Minimal blobs
 =============
-The :class:`datreant.limbs.Data` interface takes advantage of the fact that
+The :class:`datreant.data.limbs.Data` interface takes advantage of the fact that
 Treants are directory trees, giving individual datasets their own place in the
 filesystem instead of shoving them into a single file on disk. This is by
 design, as it generally means better performance since this means less waiting
@@ -89,10 +89,10 @@ file.
 
 Reference: Data
 ===============
-The class :class:`datreant.limbs.Data` is the interface used
+The class :class:`datreant.data.limbs.Data` is the interface used
 by Treants to access their stored datasets. It is not intended to be used
 on its own, but is shown here to give a detailed view of its methods.
 
-.. autoclass:: datreant.limbs.Data
+.. autoclass:: datreant.data.limbs.Data
     :members:
     :inherited-members:
