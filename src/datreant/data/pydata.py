@@ -8,7 +8,7 @@ import pickle
 from datreant.core.backends.core import File
 
 
-pydatafile = 'pyData.h5'
+pydatafile = 'pyData.pkl'
 
 
 class pyDataFile(File):
