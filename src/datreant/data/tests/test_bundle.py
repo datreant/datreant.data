@@ -48,7 +48,7 @@ class CollectionTests():
                 agg = dict()
                 for member in collection:
                     member.data.add(self.handle, datastruct)
-                    agg[member.uuid] = datastruct
+                    agg[member.abspath] = datastruct
 
                 np.testing.assert_equal(collection.data.retrieve(self.handle),
                                         agg)
@@ -66,7 +66,7 @@ class CollectionTests():
                 agg = dict()
                 for member in collection:
                     member.data.add(self.handle, datastruct)
-                    agg[member.uuid] = datastruct
+                    agg[member.abspath] = datastruct
 
                 stored = collection.data.retrieve(self.handle)
                 for item in agg:
@@ -85,7 +85,7 @@ class CollectionTests():
                 agg = dict()
                 for member in collection:
                     member.data.add(self.handle, datastruct)
-                    agg[member.uuid] = datastruct
+                    agg[member.abspath] = datastruct
 
                 def dict2multiindex(agg):
                     agg_mi = None

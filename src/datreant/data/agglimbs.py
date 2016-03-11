@@ -5,10 +5,10 @@ AggLimbs for convenient Treant data storage and retrieval.
 import six
 import pandas as pd
 
-from datreant.core.agglimbs import AggLimb
+from datreant.core.agglimbs import AggTreeLimb
 
 
-class AggData(AggLimb):
+class AggData(AggTreeLimb):
     """Manipulators for collection data.
 
     """
@@ -52,9 +52,9 @@ class AggData(AggLimb):
         if isinstance(handle, list):
             out = list()
             for item in handle:
-                out.append(self.retrieve(item, by='uuid'))
+                out.append(self.retrieve(item, by='path'))
         elif isinstance(handle, six.string_types):
-            out = self.retrieve(handle, by='uuid')
+            out = self.retrieve(handle, by='path')
 
         return out
 
@@ -72,7 +72,8 @@ class AggData(AggLimb):
                 list of handles to available datasets
 
         """
-        datasets = [set(member.data) for member in self._collection]
+        datasets = [set(member.data) for member in self._collection
+                    if hasattr(member, 'data')]
         if mode == 'any':
             out = set.union(*datasets)
         elif mode == 'all':
@@ -83,13 +84,15 @@ class AggData(AggLimb):
 
         return out
 
+    @property
     def any(self):
-        return keys('any')
+        return self.keys('any')
 
+    @property
     def all(self):
-        return keys('all')
+        return self.keys('all')
 
-    def retrieve(self, handle, by='uuid', **kwargs):
+    def retrieve(self, handle, by='path', **kwargs):
         """Retrieve aggregated dataset from all members.
 
         This is a convenience method. The stored data structure for each member
@@ -122,9 +125,10 @@ class AggData(AggLimb):
 
         :Keywords:
             *by*
-                top-level index of output data structure; 'name' uses member
-                names, 'uuid' uses member uuids; if names are not unique,
-                it is better to go with 'uuid' ['uuid']
+                top-level index of output data structure; 'path' uses member
+                path, 'name' uses member names, 'uuid' uses member uuids; if
+                names are not unique, it is better to go with 'path' or 'uuid'
+                ['path']
 
         See :meth:`Data.retrieve` for more information on keyword usage.
 
@@ -169,7 +173,9 @@ class AggData(AggLimb):
                     "No dataset '{}' found in any member".format(handle))
 
         # get indexer from *by* keyword
-        if by == 'uuid':
+        if by == 'path':
+            def get_index(member): return member.abspath
+        elif by == 'uuid':
             def get_index(member): return member.uuid
         elif by == 'name':
             def get_index(member): return member.name
@@ -177,10 +183,11 @@ class AggData(AggLimb):
             if len(set(names)) != len(names):
                 raise KeyError(
                         "Member names not unique; data structure may not"
-                        " look as expected. Set `by` to 'uuid' to avoid this.")
+                        " look as expected. Set `by` to 'path' or 'uuid'"
+                        " to avoid this.")
         else:
             raise ValueError(
-                    "*by* keyword must be either 'name' or 'uuid'")
+                    "*by* keyword must be either 'path', 'name', or 'uuid'")
 
         # first, collect all the data into a dictionary, the
         # lowest-common-denominator aggregation structure
@@ -188,8 +195,8 @@ class AggData(AggLimb):
         for member in self._collection:
             try:
                 agg[get_index(member)] = member.data.retrieve(handle, **kwargs)
-            except KeyError:
-                pass
+            except (KeyError, AttributeError):
+                continue
 
         # if data are all Series or all DataFrames, we build a multi-index
         # Series or DataFrame (respectively)
