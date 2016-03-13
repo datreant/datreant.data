@@ -16,6 +16,8 @@ the project, clone the repository to your local machine with::
 
     git clone https://github.com/datreant/datreant.git
 
+.. _`HDF5`: https://www.hdfgroup.org/HDF5/whatishdf5.html
+
 Dependencies
 ============
 * `pandas`_: 0.16.1 or higher
