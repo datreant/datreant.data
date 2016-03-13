@@ -25,7 +25,6 @@ class npDataFile(File):
     def _open_file_w(self):
         return h5py.File(self.filename, 'w')
 
-    @File._write
     def add_data(self, key, data):
         """Add a numpy array to the data file.
 
@@ -38,13 +37,13 @@ class npDataFile(File):
             *data*
                 the numpy array to store
         """
-        try:
-            self.handle.create_dataset(key, data=data)
-        except RuntimeError:
-            del self.handle[key]
-            self.handle.create_dataset(key, data=data)
+        with self.write():
+            try:
+                self.handle.create_dataset(key, data=data)
+            except RuntimeError:
+                del self.handle[key]
+                self.handle.create_dataset(key, data=data)
 
-    @File._read
     def get_data(self, key, **kwargs):
         """Retrieve numpy array stored in file.
 
@@ -56,9 +55,9 @@ class npDataFile(File):
             *data*
                 the selected data
         """
-        return self.handle[key].value
+        with self.read():
+            return self.handle[key].value
 
-    @File._write
     def del_data(self, key, **kwargs):
         """Delete a stored data object.
 
@@ -67,9 +66,9 @@ class npDataFile(File):
                 name of data to delete
 
         """
-        del self.handle[key]
+        with self.write():
+            del self.handle[key]
 
-    @File._read
     def list_data(self):
         """List names of all stored datasets.
 
@@ -80,5 +79,6 @@ class npDataFile(File):
         using all of h5py.File's methods anyway.
 
         """
-        keys = self.handle.keys()
-        return keys
+        with self.read():
+            keys = self.handle.keys()
+            return keys

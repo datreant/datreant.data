@@ -26,7 +26,6 @@ class pyDataFile(File):
     def _open_file_w(self):
         return open(self.filename, 'wb+')
 
-    @File._write
     def add_data(self, key, data):
         """Add a numpy array to the data file.
 
@@ -38,9 +37,9 @@ class pyDataFile(File):
             *data*
                 the numpy array to store
         """
-        pickle.dump(data, self.handle)
+        with self.write():
+            pickle.dump(data, self.handle)
 
-    @File._read
     def get_data(self, key, **kwargs):
         """Retrieve numpy array stored in file.
 
@@ -52,4 +51,5 @@ class pyDataFile(File):
             *data*
                 the selected data
         """
-        return pickle.load(self.handle)
+        with self.read():
+            return pickle.load(self.handle)

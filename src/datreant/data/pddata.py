@@ -28,7 +28,6 @@ class pdDataFile(File):
     def _open_file_w(self):
         return pd.HDFStore(self.filename, 'a')
 
-    @File._write
     def add_data(self, key, data):
         """Add a pandas data object (Series, DataFrame, Panel) to the data file.
 
@@ -42,22 +41,22 @@ class pdDataFile(File):
                 the data object to store; should be either a Series, DataFrame,
                 or Panel
         """
-        # index all columns if possible
-        try:
-            # FIXME: band-aid heuristic to catch a known corner case that
-            # HDFStore doesn't catch; see ``Issue 20``
-            if (isinstance(data, pd.DataFrame) and
-                    data.columns.dtype == np.dtype('int64')):
-                raise AttributeError
+        with self.write():
+            # index all columns if possible
+            try:
+                # FIXME: band-aid heuristic to catch a known corner case that
+                # HDFStore doesn't catch; see ``Issue 20``
+                if (isinstance(data, pd.DataFrame) and
+                        data.columns.dtype == np.dtype('int64')):
+                    raise AttributeError
 
-            self.handle.put(
-                key, data, format='table', data_columns=True, complevel=5,
-                complib='blosc')
-        except AttributeError:
-            self.handle.put(
-                key, data, format='table', complevel=5, complib='blosc')
+                self.handle.put(
+                    key, data, format='table', data_columns=True, complevel=5,
+                    complib='blosc')
+            except AttributeError:
+                self.handle.put(
+                    key, data, format='table', complevel=5, complib='blosc')
 
-    @File._write
     def append_data(self, key, data):
         """Append rows to an existing pandas data object stored in the data file.
 
@@ -74,13 +73,13 @@ class pdDataFile(File):
                 data
 
         """
-        try:
-            self.handle.append(
-                key, data, data_columns=True, complevel=5, complib='blosc')
-        except AttributeError:
-            self.handle.append(key, data, complevel=5, complib='blosc')
+        with self.write():
+            try:
+                self.handle.append(
+                    key, data, data_columns=True, complevel=5, complib='blosc')
+            except AttributeError:
+                self.handle.append(key, data, complevel=5, complib='blosc')
 
-    @File._read
     def get_data(self, key, **kwargs):
         """Retrieve pandas object stored in file, optionally based on where criteria.
 
@@ -107,9 +106,9 @@ class pdDataFile(File):
             *data*
                 the selected data
         """
-        return self.handle.select(key, **kwargs)
+        with self.read():
+            return self.handle.select(key, **kwargs)
 
-    @File._write
     def del_data(self, key, **kwargs):
         """Delete a stored data object.
 
@@ -126,11 +125,11 @@ class pdDataFile(File):
                 row number to stop selection
 
         """
-        self.handle.remove(key, **kwargs)
+        with self.write():
+            self.handle.remove(key, **kwargs)
 
     # TODO: remove this; since we only place one datastructure in an HDF5 file,
     # we don't need it
-    @File._read
     def list_data(self):
         """List names of all stored datasets.
 
@@ -141,5 +140,6 @@ class pdDataFile(File):
         using all of pandas.HDFStore's methods anyway.
 
         """
-        keys = self.handle.keys()
-        return [i.lstrip('/') for i in keys]
+        with self.read():
+            keys = self.handle.keys()
+            return [i.lstrip('/') for i in keys]
