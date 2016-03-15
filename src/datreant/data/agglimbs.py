@@ -74,13 +74,16 @@ class AggData(AggTreeLimb):
         """
         datasets = [set(member.data) for member in self._collection
                     if hasattr(member, 'data')]
-        if mode == 'any':
-            out = set.union(*datasets)
-        elif mode == 'all':
-            out = set.intersection(*datasets)
+        if datasets:
+            if mode == 'any':
+                out = set.union(*datasets)
+            elif mode == 'all':
+                out = set.intersection(*datasets)
 
-        out = list(out)
-        out.sort()
+            out = list(out)
+            out.sort()
+        else:
+            out = list()
 
         return out
 
