@@ -63,7 +63,7 @@ class AggData(AggTreeLimb):
 
         Parameters
         ----------
-        scope : str
+        scope : {'all', 'any'}
             Keys to list. 'all' returns only handles that are present in all
             members. 'any' returns a list of all handles present in at least
             one member.
