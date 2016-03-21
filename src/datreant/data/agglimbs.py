@@ -15,10 +15,10 @@ class AggData(AggTreeLimb):
     _name = 'data'
 
     def __repr__(self):
-        return "<AggData({})>".format(self.keys(mode='all'))
+        return "<AggData({})>".format(self.keys(scope='all'))
 
     def _repr_html_(self):
-        data = self.keys(mode='all')
+        data = self.keys(scope='all')
         agg = "Data"
         if not data:
             out = "No Data"
@@ -58,26 +58,28 @@ class AggData(AggTreeLimb):
 
         return out
 
-    def keys(self, mode='all'):
+    def keys(self, scope='all'):
         """List available datasets.
 
-        :Arguments:
-            *mode*
-                'any' returns a list of all handles present in at least one
-                member; 'all' returns only handles that are present in all
-                members
+        Parameters
+        ----------
+        scope : str
+            Keys to list. 'all' returns only handles that are present in all
+            members. 'any' returns a list of all handles present in at least
+            one member.
 
-        :Returns:
-            *handles*
-                list of handles to available datasets
+        Returns
+        -------
+        handles : list
+            list of handles to available datasets
 
         """
         datasets = [set(member.data) for member in self._collection
                     if hasattr(member, 'data')]
         if datasets:
-            if mode == 'any':
+            if scope == 'any':
                 out = set.union(*datasets)
-            elif mode == 'all':
+            elif scope == 'all':
                 out = set.intersection(*datasets)
 
             out = list(out)
