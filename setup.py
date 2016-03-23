@@ -19,9 +19,6 @@ setup(name='datreant.data',
       scripts=[],
       license='BSD',
       long_description=open('README.rst').read(),
-      dependency_links=[
-      'http://github.com/datreant/datreant.core/tarball/develop#egg=datreant.core-0.6.0-dev',
-      ],
       install_requires=[
           'datreant.core',
           'six',
