@@ -1,43 +1,15 @@
 Aggregated data
 ===============
-These are the API components of ``datreant.core`` for working with multiple
-Treants at once, and treating them in aggregate.
+These are the API components of ``datreant.data`` for working with datasets
+from multiple Treants at once, and treating them in aggregate.
 
-.. _Bundle_api:
+.. _AggData_api:
 
-Bundle
-------
-The class :class:`datreant.core.Bundle` functions as an ordered set of
-Treants. It allows common operations on Treants to be performed in aggregate,
-but also includes mechanisms for filtering and grouping based on Treant
-attributes, such as tags and categories.
-
-
-Bundles can be created from all Treants found in a directory tree with
-:func:`datreant.core.discover`:
-
-.. autofunction:: datreant.core.discover
-
-They can also be created directly from any number of Treants:
-
-.. autoclass:: datreant.core.Bundle
-    :members:
-    :inherited-members:
-
-AggTags
+AggData
 ```````
-The class :class:`datreant.core.agglimbs.AggTags` is the interface used by
-Bundles to access their members' tags.
+The class :class:`datreant.data.agglimbs.AggData` is the interface used by
+Bundles and Views to access their members' datasets in aggregate.
 
-.. autoclass:: datreant.core.agglimbs.AggTags
-    :members:
-    :inherited-members:
-
-AggCategories
-`````````````
-The class :class:`datreant.core.agglimbs.AggCategories` is the interface used
-by Bundles to access their members' categories.
-
-.. autoclass:: datreant.core.agglimbs.AggCategories
+.. autoclass:: datreant.data.agglimbs.AggData
     :members:
     :inherited-members:

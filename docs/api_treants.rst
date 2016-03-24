@@ -1,8 +1,7 @@
 Individual datasets
 ===================
-
-
-The components documented here are those included within ``datreant.data``.
+These are the API components of ``datreant.data`` for storing and retrieving
+datasets from individual Treants and Trees.
 
 .. _Data_api:
 
