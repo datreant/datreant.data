@@ -3,7 +3,17 @@
 ================================================================
 datreant.data: convenient data storage and retrieval for Treants
 ================================================================
-This ``datreant`` subpackage provides the ``data`` Limb.
+This `datreant`_ submodule adds a convenience interface for `numpy`_ and
+`pandas`_ data storage and retrieval using `HDF5`_ within a Treant's directory
+structure. It provides the ``data`` limb for Treants, Trees, Bundles, and Views
+from `datreant.core`_.
+
+.. _`datreant`: http://datreant.org/
+.. _`numpy`: http://www.numpy.org/
+.. _`pandas`: http://pandas.pydata.org/
+.. _`HDF5`: https://www.hdfgroup.org/HDF5/whatishdf5.html
+
+.. _`datreant.core`: http://datreant.readthedocs.org/en/latest/
 
 Getting datreant.data
 =====================
@@ -18,41 +28,28 @@ the project, clone the repository to your local machine with::
 
 .. _`HDF5`: https://www.hdfgroup.org/HDF5/whatishdf5.html
 
-Dependencies
-============
-* `pandas`_: 0.16.1 or higher
-* `PyTables`_: 3.2.0 or higher
-* `h5py`_: 2.5.0 or higher
-
-.. _`pandas`: http://pandas.pydata.org/
-.. _`PyTables`: http://www.pytables.org/
-.. _`h5py`: http://www.h5py.org/
-
 Contributing
 ============
 This project is still under heavy development, and there are certainly rough
 edges and bugs. Issues and pull requests welcome! Check out our `contributor's guide`_
-if you learn how to get started with contributing back.
+to learn how to get started with contributing back.
 
-.. _`contributor's guide`: https://github.com/datreant/datreant/wiki/Contributing
-
-.. raw:: html
-
-    <div style="display:none">
+.. _`contributor's guide`: http://datreant.readthedocs.org/en/latest/contributing.html
 
 --------------------------------------------------------------------------------
 
-Documentation
--------------
-
 .. toctree::
+    :caption: User Documentation
     :maxdepth: 1
 
     install
-    Data
+    treants
+    trees
+    view_bundles
+    api 
 
---------------------------------------------------------------------------------
+.. toctree::
+    :maxdepth: 1
+    :caption: For Developers
 
-.. raw:: html
-
-   </div>
+    contributing

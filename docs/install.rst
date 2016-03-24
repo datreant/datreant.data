@@ -1,12 +1,9 @@
 ========================
 Installing datreant.data
 ========================
-There are no official releases of datreant.data yet, but the master branch on
-GitHub gives the most current state of the package. 
-
-First install the dependencies. Since datreant.data uses HDF5 as the file
-format of choice for persistence, you will need to install the libraries either
-using your package manager or manually. 
+Since ``datreant.data`` uses HDF5 as the file format of choice for persistence,
+you will first need to install the HDF5 libraries either using your package
+manager or manually. 
 
 On Ubuntu 14.04 this will be ::
 
@@ -15,18 +12,34 @@ On Ubuntu 14.04 this will be ::
 and on Arch Linux ::
    
     pacman -S hdf5
-    
-PyTables can be particularly picky, and it often fails to obtain its own
-dependencies. It is best to first install PyTables' dependencies explicitly ::
 
-    pip install numpy numexpr Cython
+You can then install ``datreant.data`` from `PyPI <https://pypi.python.org/>`_
+using pip::
 
-Then install PyTables and everything else ::
-    
-    pip install tables 
-    pip install pandas h5py scandir
+    pip install datreant.data
 
-Then clone the repository and switch to the master branch ::
+It is also possible to use ``--user`` to install into your user's site-packages
+directory::
+
+    pip install --user datreant.data
+
+Dependencies
+============
+The dependencies of ``datreant.data`` are:
+
+- `pandas`_: 0.16.1 or higher
+- `PyTables`_: 3.2.0 or higher
+- `h5py`_: 2.5.0 or higher
+
+.. _`pandas`: http://pandas.pydata.org/
+.. _`PyTables`: http://www.pytables.org/
+.. _`h5py`: http://www.h5py.org/
+
+These are installed automatically when installing with pip.
+
+Installing from source
+======================
+To install from source, clone the repository and switch to the master branch ::
 
     git clone git@github.com:datreant/datreant.data.git
     cd datreant.data
@@ -36,9 +49,10 @@ Installation of the packages is as simple as ::
 
     pip install .
 
-This installs datreant in the system wide python directory; this may
+This installs ``datreant.data`` in the system wide python directory; this may
 require administrative privileges.
 
-It is also possible to use ``--prefix`` or ``--user`` options for
-pip to install in a different (probably your private) python directory
-hierarchy. ``python setup.py install --help`` should show you your options.
+It is also possible to use ``--user`` to install into your user's site-packages
+directory::
+
+    pip install --user .

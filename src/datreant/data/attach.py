@@ -3,7 +3,7 @@ Modifications made to :mod:`datreant` classes on import of module.
 
 """
 
-from datreant.core import Tree, Bundle, View
+from datreant.core import Treant, Tree, Bundle, View, Group
 from . import limbs
 from . import agglimbs
 

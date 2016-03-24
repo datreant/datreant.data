@@ -92,7 +92,3 @@ Reference: Data
 The class :class:`datreant.data.limbs.Data` is the interface used
 by Treants to access their stored datasets. It is not intended to be used
 on its own, but is shown here to give a detailed view of its methods.
-
-.. autoclass:: datreant.data.limbs.Data
-    :members:
-    :inherited-members:
