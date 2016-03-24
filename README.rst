@@ -9,9 +9,13 @@ This `datreant`_ submodule adds a convenience interface for `numpy`_ and
 structure. It provides the ``data`` limb for Treants, Trees, Bundles, and Views
 from `datreant.core`_.
 
+See the ``datreant.data`` `documentation`_ for information on how to use this
+submodule.
+
 For more information on what **datreant** is and what it does, check out the
 `official documentation`_.
 
+.. _`documentation`: http://datreantdata.readthedocs.org/
 .. _`official documentation`: http://datreant.readthedocs.org/
 
 .. _`datreant`: http://datreant.org/
