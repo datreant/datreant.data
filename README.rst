@@ -47,7 +47,7 @@ contributing back.
 .. _`contributor's guide`: http://datreant.readthedocs.org/en/develop/contributing.html
 
 .. |docs| image:: http://readthedocs.org/projects/datreantdata/badge/?version=develop
-    :target: http://datreantdata.readthedocs.org/en/latest/?badge=develop
+    :target: http://datreantdata.readthedocs.org/en/develop/?badge=develop
     :alt: Documentation Status
 
 .. |build| image:: https://travis-ci.org/datreant/datreant.data.svg?branch=develop
