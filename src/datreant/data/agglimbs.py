@@ -34,7 +34,7 @@ class AggData(AggTreeLimb):
         """Retrieve aggreggated dataset from all members.
 
         Returns datasets indexed according to member uuids.
-        See :meth:`AggData.retrieve` for more information.
+        See :meth:`retrieve` for more information.
 
         Raises :exc:`KeyError` if dataset doesn't exist for any members.
 
@@ -105,24 +105,26 @@ class AggData(AggTreeLimb):
         on the form of the data structures pulled from each member:
 
         pandas DataFrames or Series
-            the structures are appended together, with a new level added
-            to the index giving the member (see *by*) each set of rows
-            came from
+          the structures are appended together, with a new level added
+          to the index giving the member (see *by*) each set of rows
+          came from
 
         pandas Panel or Panel4D, numpy arrays, pickled python objects
-            the structures are returned as a dictionary, with keys giving
-            the member (see *by*) and each value giving the corresponding
-            data structure
+          the structures are returned as a dictionary, with keys giving
+          the member (see *by*) and each value giving the corresponding
+          data structure
 
         This method tries to do smart things with the data it reads from each
         member. In particular:
-            - members for which there is no data with the given handle are
-              skipped
-            - the lowest-common-denominator data structure is output; this
-              means that if all data structures read are pandas DataFrames,
-              then a multi-index DataFrame is returned; if some structures are
-              pandas DataFrames, while some are anything else, a dictionary is
-              returned
+
+        - members for which there is no data with the given handle are
+          skipped
+
+        - the lowest-common-denominator data structure is output; this
+          means that if all data structures read are pandas DataFrames,
+          then a multi-index DataFrame is returned; if some structures are
+          pandas DataFrames, while some are anything else, a dictionary is
+          returned
 
         :Arguments:
             *handle*
@@ -135,7 +137,8 @@ class AggData(AggTreeLimb):
                 names are not unique, it is better to go with 'path' or 'uuid'
                 ['path']
 
-        See :meth:`Data.retrieve` for more information on keyword usage.
+        See :meth:`datreant.data.limbs.Data.retrieve` for more information on
+        keyword usage.
 
         :Keywords for pandas data structures:
             *where*

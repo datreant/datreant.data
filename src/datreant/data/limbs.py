@@ -101,8 +101,8 @@ class Data(TreeLimb):
         deleted in the filesystem, this should handle cleanly the scenarios
         in which data appears, goes missing, etc. while a Treant is loaded.
 
-        ``Note``: methods wrapped with this decorator need to have *handle*
-        as the first argument.
+        .. note:: Methods wrapped with this decorator need to have *handle* as
+                  the first argument.
 
         """
         @wraps(func)
@@ -133,8 +133,8 @@ class Data(TreeLimb):
         deleted in the filesystem, this should handle cleanly the scenarios
         in which data appears, goes missing, etc. while a Treant is loaded.
 
-        ``Note``: methods wrapped with this decorator need to have *handle*
-        as the first argument.
+        .. note:: Methods wrapped with this decorator need to have *handle* as
+                  the first argument.
 
         """
         @wraps(func)
@@ -338,7 +338,7 @@ class Data(TreeLimb):
 
             retrieve('mydata', where='index = 3')
 
-        See :meth:pandas.HDFStore.select() for more information.
+        See :meth:`pandas.HDFStore.select` for more information.
 
         :Arguments:
             *handle*
