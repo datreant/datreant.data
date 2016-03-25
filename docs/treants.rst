@@ -216,8 +216,63 @@ more information on the range of possibilities for the ``where`` keyword.
 
 Bonus: storing anything pickleable
 ==================================
+As a bit of a bonus, we can use the same basic storage and retrieval mechanisms
+that work for :mod:`numpy` and :mod:`pandas` objects to store Python object
+that is pickleable. For example, doing::
 
+    >>> s.data['a grocery list'] = ['ham', 'eggs', 'spam']
+
+will store this list as a pickle::
+
+    >>> s.draw()
+    sequoia/
+     +-- a grocery list/
+     |   +-- pyData.pkl
+     +-- something wicked/
+     |   +-- npData.h5
+     +-- Treant.608f7463-5063-450a-96eb-c5c93f16dc32.json
+     +-- something enormous/
+     |   +-- pdData.h5
+     +-- something terrible/
+         +-- pdData.h5
+
+And we can get it back::
+
+    >>> s.data['a grocery list']
+    ['ham', 'eggs', 'spam']
+
+In this way we don't have to care too much about what type of object we are
+trying to store; the :class:`~datreant.data.limbs.Data` limb will try to pickle
+anything that isn't a :mod:`numpy` or :mod:`pandas` object.
 
 Deleting datasets
 =================
+We can delete stored datasets with the :meth:`~datreant.data.limbs.Data.remove`
+method::
 
+    >>> s.data.remove('something terrible')
+    >>> s.draw()
+    sequoia/
+     +-- a grocery list/
+     |   +-- pyData.pkl
+     +-- Treant.608f7463-5063-450a-96eb-c5c93f16dc32.json
+     +-- something enormous/
+     |   +-- pdData.h5
+     +-- something wicked/
+         +-- npData.h5
+
+This will remove not only the file in which the data is actually stored, but
+also the directory if there are no other files present inside of it. If there
+are other files present, the data file will be deleted but the directory will
+not.
+
+But since datasets live in the filesystem, we can also delete datasets by
+deleting them more directly, e.g. through a shell::
+
+    > rm -r sequoia/"something terrible"
+
+and it will work just as well.
+
+API reference: Data
+===================
+See the :ref:`Data_api` API reference for more details.
