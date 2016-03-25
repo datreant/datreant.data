@@ -45,7 +45,7 @@ to learn how to get started with contributing back.
     install
     treants
     trees
-    view_bundles
+    views_bundles
     api 
 
 .. toctree::

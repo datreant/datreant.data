@@ -68,3 +68,48 @@ stored inside, and we can recall it just as easily as we stored it::
            [-0.20229488, -0.30303892,  1.44345568],
            [ 0.10119334, -0.50691484,  0.05854653],
            [-2.0551924 ,  0.80378532, -0.28869459]])
+
+
+Storing and retrieving ``pandas`` objects
+=========================================
+`pandas <http://pandas.pydata.org/>`_ is the *de facto* standard for working
+with tabular data in Python. It's most-used objects, the
+:class:`~pandas.Series` and :class:`~pandas.DataFrame` are just as easily
+stored as ``numpy`` arrays. If we have a DataFrame we wish to store::
+
+    >>> import pandas as pd
+    >>> df = pd.DataFrame(np.random.randn(1000, 3), columns=['A', 'B', 'C'])
+    >>> df.head()
+              A         B         C
+    0 -0.474337 -1.257253  0.497824
+    1 -1.057806 -1.393081  0.628394
+    2  0.063369 -1.820173 -1.178128
+    3 -0.747949  0.607452 -1.509302
+    4 -0.031547 -0.680997  1.127573
+
+then as you can expect, we can store it with::
+
+    >>> s.data['something terrible'] = df
+
+and recall it with::
+
+    >>> s.data['something terrible'].head()
+              A         B         C
+    0 -0.474337 -1.257253  0.497824
+    1 -1.057806 -1.393081  0.628394
+    2  0.063369 -1.820173 -1.178128
+    3 -0.747949  0.607452 -1.509302
+    4 -0.031547 -0.680997  1.127573
+
+Our data is stored in its own HDF5 file (``pdData.h5``) in the subdirectory we
+specified::
+
+    s.draw()
+
+Bonus: storing anything pickleable
+==================================
+
+
+Deleting datasets
+=================
+
