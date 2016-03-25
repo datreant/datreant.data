@@ -138,9 +138,10 @@ Have code that will generate a DataFrame with 10^8 rows? No problem::
     
     >>> for i in range(10**2):
     ...    a_piece = pd.DataFrame(np.random.randn(10**6, 3),
-                                  columns=['A', 'B', 'C'])
-
-           s.data.append('something enormous', a_piece)
+    ...                           columns=['A', 'B', 'C'],
+    ...                           index=pd.Int64Index(np.arange(10**6) + i*10**6))
+    ...
+    ...    s.data.append('something enormous', a_piece)
 
 Note that the :class:`~pandas.DataFrame` appended must have the same column
 names and dtypes as that already stored, and that only rows can be appended,
@@ -154,7 +155,64 @@ what is technically possible.
 Retrieving subselections
 ------------------------
 For pandas stores that are very large, we may not want or be able to pull the
-full object into memory. 
+full object into memory. For these cases we can use
+:meth:`~datreant.data.limbs.Data.retrieve` to get subselections of our data.
+Taking our large 10^8 row DataFrame, we can get at rows 1000000 to 2000000
+with something like::
+
+    >>> s.data.retrieve('something enormous', start=10000000, stop=2000000).shape
+    (1000000, 3)
+
+If we only wanted columns 'B' and 'C', we could get only those, too::
+
+    >>> s.data.retrieve('something enormous', start=10000000, stop=2000000,
+    ...                 columns=['B', 'C']).shape
+    (1000000, 2)
+
+These operations are performed "out-of-core", meaning that the full dataset is
+never read entirely into memory to get back the result of our subselection.
+
+Retrieving from a query
+-----------------------
+For large datasets it can also be useful to retrieve only rows that match some
+set of conditions. We can do this with the ``where`` keyword, for example
+getting all rows for which column 'A' is less than -2::
+
+    >>> s.data.retrieve('something enormous', where="A < -2").head()
+                     A         B         C
+    131      -2.177729 -0.797003  0.401288
+    134      -2.017321  0.750593 -1.366106
+    198      -2.203170 -0.670188  0.494191
+    246      -2.156695  1.107288 -0.065875
+    309      -2.334792  0.984636  0.006232
+    321      -3.784861 -1.222399  0.038717
+    346      -2.057103 -0.230953  0.732774
+    364      -2.418875  0.250880 -0.850418
+    413      -2.528563 -0.261624  1.233367
+    480      -2.205484  0.036570  0.501868
+
+.. note:: Since our data is randomly generated in this example, the rows you get running
+          the same example will be different.
+
+Or perhaps when both column 'A' is less than -2 and column 'C' is greater than 2::
+
+    >>> s.data.retrieve('something enormous', where="A < -2 & C > 2").head()
+                     A         B         C
+    1790     -3.103821 -0.616780  2.714530
+    5635     -2.431589 -0.580400  3.163408
+    7664     -2.364559  0.304764  2.884965
+    9208     -2.569256  1.105211  2.008396
+    9487     -2.028096  0.146484  2.234081
+    9968     -2.362063  0.544276  2.469602
+    11503    -2.494900 -0.005465  2.487311
+    12725    -2.353478 -0.001569  2.274861
+    14991    -2.129492 -1.889708  2.324640
+    15178    -2.327528  1.852786  2.425977
+
+See the documentation for `querying`_ with :meth:`pandas.HDFStore.select` for
+more information on the range of possibilities for the ``where`` keyword.
+
+.. _querying: http://pandas.pydata.org/pandas-docs/stable/io.html#querying-a-table
 
 Bonus: storing anything pickleable
 ==================================
