@@ -226,6 +226,7 @@ class Data(TreeLimb):
         """
         self._datafile.add_data('main', data)
 
+    @_write_datafile
     def remove(self, handle, **kwargs):
         """Remove a dataset, or some subset of a dataset.
 
@@ -255,55 +256,10 @@ class Data(TreeLimb):
         datafile, datafiletype = self._get_datafile(handle)
 
         if kwargs and datafiletype == pddata.pddatafile:
-            self._delete_data(handle, **kwargs)
-        elif datafile:
-            os.remove(datafile)
-            top = self._tree.abspath
-            directory = os.path.dirname(datafile)
-            while directory != top:
-                try:
-                    os.rmdir(directory)
-                    directory = os.path.dirname(directory)
-                except OSError:
-                    break
-
-    @_write_datafile
-    def _delete_data(self, handle, **kwargs):
-        """Remove a dataset, or some subset of a dataset.
-
-        This method loads the given data instance before doing anything,
-        and should generally not be used to remove data since it will create
-        a datafile object if one is not already present, which could have
-        side-effects for other instances of this Treant.
-
-        Note: in the case the whole dataset is removed, the directory
-        containing the dataset file (``Data.h5``) will NOT be removed if it
-        still contains file(s) after the removal of the dataset file.
-
-        :Arguments:
-            *handle*
-                name of dataset to delete
-
-        :Keywords:
-            *where*
-                conditions for what rows/columns to remove
-            *start*
-                row number to start selection
-            *stop*
-                row number to stop selection
-            *columns*
-                columns to remove
-
-        """
-        # only called for pandas objects at the moment
-        filename, filetype = self._get_datafile(handle)
-        self._datafile.datafiletype = filetype
-        try:
             self._datafile.del_data('main', **kwargs)
-        except NotImplementedError:
-            datafile = self._get_datafile(handle)[0]
+        elif datafile:
+            self._datafile.delete()
 
-            os.remove(datafile)
             top = self._tree.abspath
             directory = os.path.dirname(datafile)
             while directory != top:

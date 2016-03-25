@@ -178,3 +178,25 @@ class DataFile(object):
             out = None
 
         return out
+
+    def delete(self):
+        """Delete datafile and its proxy file.
+
+        """
+        if self.datafiletype == npdata.npdatafile:
+            self.datafile = npdata.npDataFile(
+                os.path.join(self.datadir, npdata.npdatafile))
+            self.datafile.delete()
+            self.datafile = None
+        elif self.datafiletype == pddata.pddatafile:
+            self.datafile = pddata.pdDataFile(
+                os.path.join(self.datadir, pddata.pddatafile))
+            self.datafile.delete()
+            self.datafile = None
+        elif self.datafiletype == pydata.pydatafile:
+            self.datafile = pydata.pyDataFile(
+                os.path.join(self.datadir, pydata.pydatafile))
+            self.datafile.delete()
+            self.datafile = None
+        else:
+            raise TypeError('Cannot return data without knowing datatype.')
