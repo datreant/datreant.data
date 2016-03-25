@@ -43,11 +43,6 @@ We can store this easily ::
     >>> s.data
     <Data(['something wicked'])>
 
-and recall it ::
-
-    >>> s.data['something wicked'].shape
-    (1000000, 3)
-
 Looking at the contents of the directory ``sequoia``, we see it has a new
 subdirectory corresponding to the name of our stored dataset ::
 
@@ -102,9 +97,64 @@ and recall it with::
     4 -0.031547 -0.680997  1.127573
 
 Our data is stored in its own HDF5 file (``pdData.h5``) in the subdirectory we
-specified::
+specified, so now our Treant looks like this::
 
     s.draw()
+    sequoia/
+     +-- something wicked/
+     |   +-- npData.h5
+     +-- Treant.608f7463-5063-450a-96eb-c5c93f16dc32.json
+     +-- something terrible/
+         +-- pdData.h5
+
+Alternatively, we can use the :meth:`~datreant.data.limbs.Data.add` method to
+store datasets::
+
+    >>> s.data.add('something terrible')
+
+but the effect is the same. Since internally this uses the `pandas.HDFStore`_
+class for storing pandas objects, all limitations for the types of indexes and
+objects it can store apply.
+
+.. _pandas.HDFStore: http://pandas.pydata.org/pandas-docs/stable/api.html#hdfstore-pytables-hdf5
+
+Appending to existing data
+--------------------------
+Sometimes we may have code that will generate a :class:`~pandas.Series` or
+:class:`~pandas.DataFrame` that is rather large, perhaps larger than our
+machine's memory. In these cases we can
+:meth:`~datreant.data.limbs.Data.append` to an existing store instead of writing
+out a single, huge DataFrame all at once::
+
+    >>> s.data['something terrible'].shape     # before
+    (1000, 3)
+
+    >>> df2 = pd.DataFrame(np.random.randn(2000, 3), columns=['A', 'B', 'C'])
+    >>> s.data.append('something terrible', df2)
+    >>> s.data['something terrible'].shape     # after
+    (3000, 3)
+
+Have code that will generate a DataFrame with 10^8 rows? No problem::
+    
+    >>> for i in range(10**2):
+    ...    a_piece = pd.DataFrame(np.random.randn(10**6, 3),
+                                  columns=['A', 'B', 'C'])
+
+           s.data.append('something enormous', a_piece)
+
+Note that the :class:`~pandas.DataFrame` appended must have the same column
+names and dtypes as that already stored, and that only rows can be appended,
+not columns. For :class:`pandas.Series` objects the dtype must match. 
+Appending of :class:`pandas.Panel` objects also works, but the limitations are
+more stringent. See the `pandas HDFStore documentation`_ for more details on
+what is technically possible.
+
+.. _pandas HDFStore documentation: http://pandas.pydata.org/pandas-docs/stable/io.html#hdf5-pytables
+
+Retrieving subselections
+------------------------
+For pandas stores that are very large, we may not want or be able to pull the
+full object into memory. 
 
 Bonus: storing anything pickleable
 ==================================

@@ -73,6 +73,20 @@ class TestTreant:
                         treant.data[self.handle].values,
                         datastruct.values)
 
+        # TODO
+        class AppendablesMixin:
+            """Mixin class for pandas objects that we expect should append"""
+
+            def test_append_data(self, treant, datastruct):
+                index = datastruct.index
+                for i in range(5):
+                    treant.data.append(self.handle, datastruct)
+
+                stored = treant.data.retrieve(self.handle)
+                equiv = pd.concat([datastruct]*5)
+
+                np.testing.assert_equal(stored, equiv)
+
         class Test_Series(test_data.Series, PandasMixin):
             pass
 

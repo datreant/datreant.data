@@ -306,5 +306,6 @@ napoleon_use_ivar = False
 napoleon_use_param = True
 napoleon_use_rtype = True
 
-# intersphinx mapping to datreant.core docs
-intersphinx_mapping = {'datreantcore': ('http://datreant.readthedocs.org/en/master/', None)}
+# intersphinx mapping to datreant.core docs and others
+intersphinx_mapping = {'datreantcore': ('http://datreant.readthedocs.org/en/master/', None),
+                       'pandas': ('http://pandas.pydata.org/pandas-docs/stable/', None)}

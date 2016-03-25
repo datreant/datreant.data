@@ -8,6 +8,9 @@ This `datreant`_ submodule adds a convenience interface for `numpy`_ and
 structure. It provides the ``data`` limb for Treants, Trees, Bundles, and Views
 from `datreant.core`_.
 
+.. warning:: This module is **experimental**. It is not API stable, and has
+             many rough edges and limitations. It is, however, usable.
+
 .. _`datreant`: http://datreant.org/
 .. _`numpy`: http://www.numpy.org/
 .. _`pandas`: http://pandas.pydata.org/
