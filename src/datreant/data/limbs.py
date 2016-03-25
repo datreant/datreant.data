@@ -73,6 +73,8 @@ class Data(TreeLimb):
         :Returns:
             *datafile*
                 datafile path; None if does not exist
+            *proxyfile*
+                proxyfile path; None if does not exist
             *datafiletype*
                 datafile type; either ``persistence.pddatafile`` or
                 ``persistence.npdatafile``
@@ -86,12 +88,14 @@ class Data(TreeLimb):
                                  handle, dfiletype)
             if os.path.exists(dfile):
                 datafile = dfile
+                proxyfile = os.path.join(self._tree.abspath,
+                                         handle, ".{}.proxy".format(dfiletype))
                 datafiletype = dfiletype
 
         if datafile is None and datafiletype is None:
             raise KeyError("No data for '{}'".format(handle))
 
-        return (datafile, datafiletype)
+        return (datafile, proxyfile, datafiletype)
 
     def _read_datafile(func):
         """Decorator for generating DataFile instance for reading data.
@@ -107,7 +111,7 @@ class Data(TreeLimb):
         """
         @wraps(func)
         def inner(self, handle, *args, **kwargs):
-            filename, filetype = self._get_datafile(handle)
+            filename, proxy, filetype = self._get_datafile(handle)
 
             if filename:
                 self._datafile = DataFile(
@@ -226,7 +230,6 @@ class Data(TreeLimb):
         """
         self._datafile.add_data('main', data)
 
-    @_write_datafile
     def remove(self, handle, **kwargs):
         """Remove a dataset, or some subset of a dataset.
 
@@ -253,13 +256,60 @@ class Data(TreeLimb):
                 columns to remove
 
         """
-        datafile, datafiletype = self._get_datafile(handle)
+        datafile, proxy, datafiletype = self._get_datafile(handle)
 
         if kwargs and datafiletype == pddata.pddatafile:
-            self._datafile.del_data('main', **kwargs)
+            self._delete_data(handle, **kwargs)
         elif datafile:
-            self._datafile.delete()
+            os.remove(datafile)
+            os.remove(proxy)
+            top = self._tree.abspath
+            directory = os.path.dirname(datafile)
+            while directory != top:
+                try:
+                    os.rmdir(directory)
+                    directory = os.path.dirname(directory)
+                except OSError:
+                    break
 
+    @_write_datafile
+    def _delete_data(self, handle, **kwargs):
+        """Remove a dataset, or some subset of a dataset.
+
+        This method loads the given data instance before doing anything,
+        and should generally not be used to remove data since it will create
+        a datafile object if one is not already present, which could have
+        side-effects for other instances of this Treant.
+
+        Note: in the case the whole dataset is removed, the directory
+        containing the dataset file (``Data.h5``) will NOT be removed if it
+        still contains file(s) after the removal of the dataset file.
+
+        :Arguments:
+            *handle*
+                name of dataset to delete
+
+        :Keywords:
+            *where*
+                conditions for what rows/columns to remove
+            *start*
+                row number to start selection
+            *stop*
+                row number to stop selection
+            *columns*
+                columns to remove
+
+        """
+        # only called for pandas objects at the moment
+        filename, proxy, filetype = self._get_datafile(handle)
+        self._datafile.datafiletype = filetype
+        try:
+            self._datafile.del_data('main', **kwargs)
+        except NotImplementedError:
+            datafile = self._get_datafile(handle)[0]
+
+            os.remove(datafile)
+            os.remove(proxy)
             top = self._tree.abspath
             directory = os.path.dirname(datafile)
             while directory != top:

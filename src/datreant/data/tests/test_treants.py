@@ -49,6 +49,10 @@ class TestTreant:
                                                        self.handle,
                                                        self.datafile))
 
+                # check that directory got deleted, too
+                assert not os.path.exists(os.path.join(treant.abspath,
+                                                       self.handle))
+
             def test_retrieve_data(self, treant, datastruct):
                 treant.data.add(self.handle, datastruct)
                 np.testing.assert_equal(treant.data.retrieve(self.handle),
