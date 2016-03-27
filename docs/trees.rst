@@ -66,6 +66,8 @@ and we could always get them back easily enough::
     ['milk', 'ham', 'eggs', 'steak']
 
 
+.. _Trees_subselections:
+
 Trees as subselections
 ======================
 But since Trees can access datasets inside them, we could work more directly

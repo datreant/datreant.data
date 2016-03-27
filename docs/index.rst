@@ -50,9 +50,3 @@ to learn how to get started with contributing back.
     trees
     views_bundles
     api 
-
-.. toctree::
-    :maxdepth: 1
-    :caption: For Developers
-
-    contributing

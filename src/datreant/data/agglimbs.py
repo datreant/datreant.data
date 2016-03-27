@@ -17,19 +17,6 @@ class AggData(AggTreeLimb):
     def __repr__(self):
         return "<AggData({})>".format(self.keys(scope='all'))
 
-    def _repr_html_(self):
-        data = self.keys(scope='all')
-        agg = "Data"
-        if not data:
-            out = "No Data"
-        else:
-            out = "<h3>{}</h3>".format(agg)
-            out = out + "<ul style='list-style-type:none'>"
-            for datum in data:
-                out = out + "<li>{}</li>".format(datum)
-            out = out + "</ul>"
-        return out
-
     def __getitem__(self, handle):
         """Retrieve aggreggated dataset from all members.
 
