@@ -10,7 +10,7 @@ For a basic installation just type the command::
 from setuptools import setup, find_packages
 
 setup(name='datreant.data',
-      version='0.6.0',
+      version='0.7.0-dev',
       description='convenient data storage and retrieval in HDF5 for Treants',
       author='David Dotson',
       author_email='dotsdl@gmail.com',

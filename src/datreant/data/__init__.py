@@ -17,4 +17,4 @@ from . import limbs
 from . import agglimbs
 
 __all__ = ['Treant', 'Group', 'Tree', 'Leaf', 'Bundle']
-__version__ = "0.6.0"  # NOTE: keep in sync with RELEASE in setup.py
+__version__ = "0.7.0-dev"  # NOTE: keep in sync with RELEASE in setup.py
