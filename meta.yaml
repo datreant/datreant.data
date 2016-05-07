@@ -1,0 +1,62 @@
+package:
+  name: datreant.data
+  version: "0.6.0"
+
+source:
+    path: .
+
+build:
+    noarch_python: True
+    script: $PYTHON setup.py install
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - datreant.core
+    - six
+    - numpy
+    - pandas
+    - pytables
+    - h5py
+
+
+  run:
+    - python
+    - datreant.core
+    - six
+    - numpy
+    - pandas
+    - pytables
+    - h5py
+
+test:
+  # Python imports
+  imports:
+    - datreant.data
+
+  requires:
+    # Put any additional test requirements here.  For example
+    - pytest
+    - datreant.core
+    - six
+    - numpy
+    - pandas
+    - pytables
+    - h5py
+
+  files:
+   - src/datreant/data/tests
+
+  commands:
+    - py.test src
+
+about:
+  home: http://datreant.org/
+  license: BSD
+  license_file: LICENSE
+  summary: 'convenient data storage and retrieval in HDF5 for Treants'
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml
