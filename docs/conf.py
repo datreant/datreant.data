@@ -280,9 +280,6 @@ man_pages = [
 #     'Miscellaneous'),
 #]
 
-# Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'http://docs.python.org/': None}
-
 # on_rtd is whether we are on readthedocs.org, this line of code grabbed from docs.readthedocs.org
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
@@ -309,5 +306,6 @@ napoleon_use_param = True
 napoleon_use_rtype = True
 
 # intersphinx mapping to datreant.core docs and others
-intersphinx_mapping = {'datreantcore': ('http://datreant.readthedocs.org/en/master/', None),
+intersphinx_mapping = {'http://docs.python.org/': None,
+                       'datreantcore': ('http://datreant.readthedocs.org/en/master/', None),
                        'pandas': ('http://pandas.pydata.org/pandas-docs/stable/', None)}
