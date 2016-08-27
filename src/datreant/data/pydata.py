@@ -38,7 +38,7 @@ class pyDataFile(File):
                 the numpy array to store
         """
         with self.write():
-            pickle.dump(data, self.handle)
+            pickle.dump(data, self.handle, pickle.HIGHEST_PROTOCOL)
 
     def get_data(self, key, **kwargs):
         """Retrieve numpy array stored in file.
