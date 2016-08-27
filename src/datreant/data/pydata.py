@@ -3,7 +3,7 @@ File backends for storing general python objects.
 
 """
 
-import pickle
+from six.moves import cPickle as pickle
 
 from datreant.core.backends.core import File
 
