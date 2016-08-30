@@ -3,7 +3,7 @@ File backends for storing general python objects.
 
 """
 
-import pickle
+from six.moves import cPickle as pickle
 
 from datreant.core.backends.core import File
 
@@ -38,7 +38,7 @@ class pyDataFile(File):
                 the numpy array to store
         """
         with self.write():
-            pickle.dump(data, self.handle)
+            pickle.dump(data, self.handle, pickle.HIGHEST_PROTOCOL)
 
     def get_data(self, key, **kwargs):
         """Retrieve numpy array stored in file.

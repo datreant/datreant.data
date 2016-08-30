@@ -12,6 +12,16 @@ The rules for this file:
   * release numbers follow "Semantic Versioning" http://semver.org
 
 ------------------------------------------------------------------------------
+xx/xx/xx kain88-de
+
+    * 0.7.0
+
+Enhancements
+
+    * switch pickle protocol for smaller pydata files
+
+
+
 03/26/16 dotsdl, andreabedini, richardjgowers, orbeckst,
 
     * 0.6.0
