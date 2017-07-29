@@ -42,23 +42,6 @@ class Thin_Blank_DataFrame():
         return pd.DataFrame(np.zeros((10, 1)))
 
 
-class Panel():
-    @pytest.fixture
-    def datastruct(self):
-        data = np.random.rand(4, 10000, 3)
-        return pd.Panel(data, items=('I', 'II', 'III', 'IV'),
-                        minor_axis=('A', 'B', 'C'))
-
-
-class Panel4D():
-    @pytest.fixture
-    def datastruct(self):
-        data = np.random.rand(2, 4, 10000, 3)
-        return pd.Panel4D(data, labels=('gallahad', 'lancelot'),
-                          items=('I', 'II', 'III', 'IV'),
-                          minor_axis=('A', 'B', 'C'))
-
-
 class NumpyScalar():
     @pytest.fixture
     def datastruct(self):

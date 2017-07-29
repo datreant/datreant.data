@@ -48,29 +48,6 @@ class CollectionTests():
                 np.testing.assert_equal(collection.data[self.handle],
                                         agg)
 
-        class PanelMixin:
-            """Mixin class for pandas structures that don't support
-            MultiIndexing.
-
-            """
-            handle = 'testdata'
-
-            def test_retrieve_data(self, collection, datastruct):
-                agg = dict()
-                for member in collection:
-                    member.data.add(self.handle, datastruct)
-                    agg[member.abspath] = datastruct
-
-                stored = collection.data.retrieve(self.handle)
-                for item in agg:
-                    np.testing.assert_equal(stored[item].values,
-                                            agg[item].values)
-
-                stored = collection.data[self.handle]
-                for item in agg:
-                    np.testing.assert_equal(stored[item].values,
-                                            agg[item].values)
-
         class MultiIndexMixin(DataMixin):
             """Mixin class for pandas structures that support MultiIndexes"""
 
@@ -117,12 +94,6 @@ class CollectionTests():
 
         class Test_Thin_Blank_DataFrame(test_data.Thin_Blank_DataFrame,
                                         MultiIndexMixin):
-            pass
-
-        class Test_Panel(test_data.Panel, PanelMixin):
-            pass
-
-        class Test_Panel4D(test_data.Panel4D, PanelMixin):
             pass
 
         class Test_NumpyScalar(test_data.NumpyScalar, DataMixin):
