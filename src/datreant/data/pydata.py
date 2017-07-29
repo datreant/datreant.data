@@ -5,7 +5,7 @@ File backends for storing general python objects.
 
 from six.moves import cPickle as pickle
 
-from datreant.core.backends.core import File
+from datreant.core.state import File
 
 
 pydatafile = 'pyData.pkl'

@@ -5,10 +5,10 @@ AggLimbs for convenient Treant data storage and retrieval.
 import six
 import pandas as pd
 
-from datreant.core.agglimbs import AggTreeLimb
+from datreant.core.agglimbs import AggLimb
 
 
-class AggData(AggTreeLimb):
+class AggData(AggLimb):
     """Manipulators for collection data.
 
     """

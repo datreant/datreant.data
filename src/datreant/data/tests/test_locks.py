@@ -7,11 +7,9 @@ import pandas as pd
 import datreant.core as dtr
 import datreant.data.attach
 
-from datreant.core.backends.statefiles import TreantFile
 
-
-def append(treantfilepath, df):
-    treant = dtr.Treant(treantfilepath)
+def append(treantpath, df):
+    treant = dtr.Treant(treantpath)
     treant.data.append('testdata', df)
 
 
@@ -24,12 +22,6 @@ class TestTreantFile:
         return t
 
     @pytest.fixture
-    def treantfile(self, tmpdir):
-        with tmpdir.as_cwd():
-            tf = TreantFile('testtreantfile.json')
-        return tf
-
-    @pytest.fixture
     def dataframe(self):
         data = np.random.rand(100, 3)
         return pd.DataFrame(data, columns=('A', 'B', 'C'))
@@ -38,7 +30,7 @@ class TestTreantFile:
         pool = mp.Pool(processes=4)
         num = 53
         for i in range(num):
-            pool.apply_async(append, args=(treant.filepath,
+            pool.apply_async(append, args=(treant.abspath,
                                            dataframe))
         pool.close()
         pool.join()

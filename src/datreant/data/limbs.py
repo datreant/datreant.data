@@ -6,12 +6,12 @@ import os
 import six
 from functools import wraps
 
-from datreant.core.limbs import TreeLimb
+from datreant.core.limbs import Limb
 from . import npdata, pddata, pydata
 from .core import DataFile
 
 
-class Data(TreeLimb):
+class Data(Limb):
     """Interface to stored data.
 
     """
