@@ -37,8 +37,10 @@ class pyDataFile(File):
             *data*
                 the numpy array to store
         """
+        # use highest python 2 pickle protocol. This allows efficient storage
+        # across python versions
         with self.write():
-            pickle.dump(data, self.handle, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(data, self.handle, 2)
 
     def get_data(self, key, **kwargs):
         """Retrieve numpy array stored in file.
@@ -52,4 +54,10 @@ class pyDataFile(File):
                 the selected data
         """
         with self.read():
-            return pickle.load(self.handle)
+            # load in bytes with python3 to ensure successful read EVERYTIME.
+            # Using the ascii encoding it can happen that python3 can read a
+            # pickle written with python 2.
+            try:
+                return pickle.load(self.handle, encoding='bytes')
+            except TypeError:
+                return pickle.load(self.handle)
