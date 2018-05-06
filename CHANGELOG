@@ -12,13 +12,17 @@ The rules for this file:
   * release numbers follow "Semantic Versioning" http://semver.org
 
 ------------------------------------------------------------------------------
-xx/xx/xx kain88-de
+05/06/18 kain88-de, dotsdl
 
-    * 0.7.0
+    * 0.7.1
 
 Enhancements
 
     * switch pickle protocol for smaller pydata files
+
+Changes
+
+    * internal changes in line with limb-system changes in `datreant.core`
 
 
 

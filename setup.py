@@ -10,7 +10,7 @@ For a basic installation just type the command::
 from setuptools import setup, find_packages
 
 setup(name='datreant.data',
-      version='0.7.0-dev',
+      version='0.7.1',
       description='convenient data storage and retrieval in HDF5 for Treants',
       author='David Dotson',
       author_email='dotsdl@gmail.com',
@@ -32,7 +32,7 @@ setup(name='datreant.data',
       license='BSD',
       long_description=open('README.rst').read(),
       install_requires=[
-          'datreant.core',
+          'datreant.core==0.7.1',
           'six',
           'numpy',
           'pandas',
